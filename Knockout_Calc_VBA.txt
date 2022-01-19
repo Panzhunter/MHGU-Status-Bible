@@ -1,0 +1,92 @@
+'Knockout Calc
+
+Dim i As Integer
+Dim a As Integer
+
+
+For i = 0 To 630
+            
+           'Without Ko King
+                    If Sheets("KO Calc").Range("B4").offset(i, 0).Value = "Threshold" Then
+                        
+                        
+                     For a = 0 To 14
+                    
+                     
+                    Sheets("KO Calc").Range("$BB$29").Value = Sheets("KO Calc").Range("I4").offset(i, a).Value
+                    
+                        'Reset Solver
+                        SolverReset
+                    
+                    '
+                        SolverOk SetCell:="$BC$29", MaxMinVal:=1, ValueOf:=0, ByChange:="$BA$24:$BA$27" _
+                            , Engine:=2, EngineDesc:="Simplex LP"
+                        SolverAdd CellRef:="$BA$24", Relation:=1, FormulaText:="BD20"
+                        SolverAdd CellRef:="$BA$24", Relation:=4, FormulaText:="integer"
+                        SolverAdd CellRef:="$BA$25", Relation:=1, FormulaText:="BD17"
+                        SolverAdd CellRef:="$BA$25", Relation:=4, FormulaText:="integer"
+                        SolverAdd CellRef:="$BA$26", Relation:=1, FormulaText:="BD15"
+                        SolverAdd CellRef:="$BA$26", Relation:=4, FormulaText:="integer"
+                        SolverAdd CellRef:="$BA$27", Relation:=1, FormulaText:="BD14"
+                        SolverAdd CellRef:="$BA$27", Relation:=4, FormulaText:="integer"
+                        SolverAdd CellRef:="$BC$29", Relation:=1, FormulaText:="0"
+                        SolverOk SetCell:="$BC$29", MaxMinVal:=1, ValueOf:=0, ByChange:="$BA$24:$BA$27" _
+                            , Engine:=2, EngineDesc:="Simplex LP"
+                        SolverOk SetCell:="$BC$29", MaxMinVal:=1, ValueOf:=0, ByChange:="$BA$24:$BA$27" _
+                            , Engine:=2, EngineDesc:="Simplex LP"
+                        SolverSolve (True)
+                    
+                        'Approve the solution and avoid the popups
+                        
+                        SolverSolve userFinish:=True
+                        SolverFinish KeepFinal:=1
+                        
+                    'Copy Cells and move them relative to the treshold field
+                      Sheets("KO Calc").Range("I5:I8").offset(i, a).Value = Sheets("KO Calc").Range("$BA$24:$BA$27").Value
+                
+                    
+            'With KO King
+            
+                        Sheets("KO Calc").Range("$BB$37").Value = Sheets("KO Calc").Range("I4").offset(i, a).Value
+                        'Reset Solver
+                        SolverReset
+                    
+                    '
+                        SolverOk SetCell:="$BC$37", MaxMinVal:=1, ValueOf:=0, ByChange:="$BA$32:$BA$35" _
+                            , Engine:=2, EngineDesc:="Simplex LP"
+                        SolverAdd CellRef:="$BA$32", Relation:=1, FormulaText:="BD20"
+                        SolverAdd CellRef:="$BA$32", Relation:=4, FormulaText:="integer"
+                        SolverAdd CellRef:="$BA$33", Relation:=1, FormulaText:="BD17"
+                        SolverAdd CellRef:="$BA$33", Relation:=4, FormulaText:="integer"
+                        SolverAdd CellRef:="$BA$34", Relation:=1, FormulaText:="BD15"
+                        SolverAdd CellRef:="$BA$34", Relation:=4, FormulaText:="integer"
+                        SolverAdd CellRef:="$BA$35", Relation:=1, FormulaText:="BD14"
+                        SolverAdd CellRef:="$BA$35", Relation:=4, FormulaText:="integer"
+                        SolverAdd CellRef:="$BC$37", Relation:=1, FormulaText:="0"
+                        SolverOk SetCell:="$BC$37", MaxMinVal:=1, ValueOf:=0, ByChange:="$BA$32:$BA$35" _
+                            , Engine:=2, EngineDesc:="Simplex LP"
+                        SolverOk SetCell:="$BC$37", MaxMinVal:=1, ValueOf:=0, ByChange:="$BA$32:$BA$35" _
+                            , Engine:=2, EngineDesc:="Simplex LP"
+                        SolverSolve (True)
+                    
+                        'Approve the solution and avoid the popups
+                        
+                        SolverSolve userFinish:=True
+                        SolverFinish KeepFinal:=1
+                        
+                    
+                      Sheets("KO Calc").Range("I9:I12").offset(i, a).Value = Sheets("KO Calc").Range("$BA$32:$BA$35").Value
+                      Sheets("KO Calc").Range("$BB$37").Value = Sheets("KO Calc").Range("I4").offset(0, i).Value
+                
+            
+            
+            
+            Next a
+            
+
+    End If
+
+Next i
+
+
+End Sub
